@@ -1,4 +1,6 @@
 from constants import (
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
     SNAKE_START_SIZE,
     SNAKE_START_X,
     SNAKE_START_Y,
@@ -31,3 +33,20 @@ def enlarge_snake_in_direction(snake_tiles, direction):
         next_snake_position[0] += TILE_SIZE
 
     snake_tiles.insert(0, next_snake_position)
+
+
+def is_snake_biting_itself(snake_tiles):
+    result = snake_tiles[0] in snake_tiles[1:]
+    return result
+
+
+def is_snake_offscreen(snake_tiles):
+    head_x, head_y = snake_tiles[0]
+    checks = [
+        head_x < 0,
+        head_x + TILE_SIZE > SCREEN_WIDTH,
+        head_y < 0,
+        head_y + TILE_SIZE > SCREEN_HEIGHT,
+    ]
+    result = any(checks)
+    return result
