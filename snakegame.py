@@ -1,13 +1,9 @@
 import pygame
 
 from constants import (
-    BLACK,
-    GREEN,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     SNAKE_SPEED,
-    TILE_SIZE,
-    WHITE,
 )
 from food_functions import get_random_food_position
 from snake_functions import (
@@ -16,7 +12,10 @@ from snake_functions import (
     is_snake_offscreen,
     enlarge_snake_in_direction,
 )
-from utilities import game_over
+from utilities import (
+    game_over,
+    update_display,
+)
 
 
 def main():
@@ -59,14 +58,7 @@ def main():
         if is_snake_biting_itself(snake) or is_snake_offscreen(snake):
             game_over()
 
-        screen.fill(BLACK)
-
-        for pos in snake:
-            pygame.draw.rect(screen, GREEN, pygame.Rect(pos[0], pos[1], TILE_SIZE, TILE_SIZE))
-
-        pygame.draw.rect(screen, WHITE, pygame.Rect(food_pos[0], food_pos[1], TILE_SIZE, TILE_SIZE))
-
-        pygame.display.update()
+        update_display(screen, snake, food_pos)
 
         clock.tick(SNAKE_SPEED)
 
