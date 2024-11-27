@@ -26,7 +26,6 @@ def main():
     direction = 'RIGHT'
 
     food_pos = get_random_food_position()
-    food_spawn = True
 
     while True:
         for event in pygame.event.get():
@@ -51,13 +50,9 @@ def main():
         enlarge_snake_in_direction(snake, direction)
 
         if snake[0] == food_pos:
-            food_spawn = False
+            food_pos = get_random_food_position()
         else:
             snake.pop()
-
-        if not food_spawn:
-            food_pos = get_random_food_position()
-        food_spawn = True
 
         screen.fill(BLACK)
 
