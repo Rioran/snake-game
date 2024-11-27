@@ -11,6 +11,7 @@ GREEN = pygame.Color(0, 255, 0)
 RED = pygame.Color(255, 0, 0)  # not used yet
 WHITE = pygame.Color(255, 255, 255)
 
+SNAKE_START_SIZE = 3
 SNAKE_SPEED = 15
 SNAKE_START_X = 100
 SNAKE_START_Y = 50

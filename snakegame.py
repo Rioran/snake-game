@@ -8,16 +8,11 @@ from constants import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     SNAKE_SPEED,
-    SNAKE_START_X,
-    SNAKE_START_Y,
     TILE_SIZE,
     WHITE,
 )
-
-
-def game_over():
-    pygame.quit()
-    quit()
+from snake_functions import initiate_snake_tiles
+from utilities import game_over
 
 
 def main():
@@ -26,11 +21,7 @@ def main():
     clock = pygame.time.Clock()
 
     # Snake settings
-    snake = [
-        [SNAKE_START_X, SNAKE_START_Y],
-        [SNAKE_START_X - TILE_SIZE, SNAKE_START_Y],
-        [SNAKE_START_X - 2 * TILE_SIZE, SNAKE_START_Y]
-    ]
+    snake = initiate_snake_tiles()
     direction = 'RIGHT'
 
     # Food settings
