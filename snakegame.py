@@ -51,16 +51,18 @@ while True:
         if event.type == pygame.QUIT:
             game_over()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_ESCAPE:
+                game_over()
+            if event.key in (pygame.K_UP, pygame.K_w):
                 if not direction == 'DOWN':
                     direction = 'UP'
-            elif event.key == pygame.K_DOWN:
+            elif event.key in (pygame.K_DOWN, pygame.K_s):
                 if not direction == 'UP':
                     direction = 'DOWN'
-            elif event.key == pygame.K_LEFT:
+            elif event.key in (pygame.K_LEFT, pygame.K_a):
                 if not direction == 'RIGHT':
                     direction = 'LEFT'
-            elif event.key == pygame.K_RIGHT:
+            elif event.key in (pygame.K_RIGHT, pygame.K_d):
                 if not direction == 'LEFT':
                     direction = 'RIGHT'
 
