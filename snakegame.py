@@ -10,7 +10,10 @@ from constants import (
     WHITE,
 )
 from food_functions import get_random_food_position
-from snake_functions import initiate_snake_tiles
+from snake_functions import (
+    initiate_snake_tiles,
+    enlarge_snake_in_direction,
+)
 from utilities import game_over
 
 
@@ -45,18 +48,8 @@ def main():
                     if not direction == 'LEFT':
                         direction = 'RIGHT'
 
-        next_snake_position = (snake[0]).copy()
+        enlarge_snake_in_direction(snake, direction)
 
-        if direction == 'UP':
-            next_snake_position[1] -= TILE_SIZE
-        if direction == 'DOWN':
-            next_snake_position[1] += TILE_SIZE
-        if direction == 'LEFT':
-            next_snake_position[0] -= TILE_SIZE
-        if direction == 'RIGHT':
-            next_snake_position[0] += TILE_SIZE
-
-        snake.insert(0, next_snake_position)
         if snake[0] == food_pos:
             food_spawn = False
         else:
