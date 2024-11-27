@@ -1,39 +1,49 @@
+from random import randrange
+
 import pygame
-import random
+
+from constants import (
+    BLACK,
+    GREEN,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    SNAKE_SPEED,
+    SNAKE_START_X,
+    SNAKE_START_Y,
+    TILE_SIZE,
+    WHITE,
+)
 
 
 pygame.init()
 
 # Screen dimensions
-screen_width = 600
-screen_height = 400
-screen = pygame.display.set_mode((screen_width, screen_height))
-
-# Colors
-black = pygame.Color(0, 0, 0)
-white = pygame.Color(255, 255, 255)
-red = pygame.Color(255, 0, 0)
-green = pygame.Color(0, 255, 0)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Snake settings
-snake_pos = [100, 50]
-snake_body = [[100, 50], [90, 50], [80, 50]]
+snake_pos = [SNAKE_START_X, SNAKE_START_Y]
+snake_body = [
+    [SNAKE_START_X, SNAKE_START_Y],
+    [SNAKE_START_X - TILE_SIZE, SNAKE_START_Y],
+    [SNAKE_START_X - 2 * TILE_SIZE, SNAKE_START_Y]
+]
 direction = 'RIGHT'
 change_to = direction
-speed = 15
 
 # Food settings
-food_pos = [random.randrange(1, (screen_width // 10)) * 10,
-            random.randrange(1, (screen_height // 10)) * 10]
+food_pos = [randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
+            randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE]
 food_spawn = True
 
 # Set up clock
 clock = pygame.time.Clock()
 
+
 # Game Over
 def game_over():
     pygame.quit()
     quit()
+
 
 # Main Function
 while True:
@@ -55,13 +65,13 @@ while True:
                     direction = 'RIGHT'
 
     if direction == 'UP':
-        snake_pos[1] -= 10
+        snake_pos[1] -= TILE_SIZE
     if direction == 'DOWN':
-        snake_pos[1] += 10
+        snake_pos[1] += TILE_SIZE
     if direction == 'LEFT':
-        snake_pos[0] -= 10
+        snake_pos[0] -= TILE_SIZE
     if direction == 'RIGHT':
-        snake_pos[0] += 10
+        snake_pos[0] += TILE_SIZE
 
     snake_body.insert(0, list(snake_pos))
     if snake_pos == food_pos:
@@ -70,18 +80,18 @@ while True:
         snake_body.pop()
 
     if not food_spawn:
-        food_pos = [random.randrange(1, (screen_width // 10)) * 10,
-                    random.randrange(1, (screen_height // 10)) * 10]
+        food_pos = [randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
+                    randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE]
     food_spawn = True
 
-    screen.fill(black)
+    screen.fill(BLACK)
 
     for pos in snake_body:
-        pygame.draw.rect(screen, green, pygame.Rect(pos[0], pos[1], 10, 10))
+        pygame.draw.rect(screen, GREEN, pygame.Rect(pos[0], pos[1], TILE_SIZE, TILE_SIZE))
 
-    pygame.draw.rect(screen, white, pygame.Rect(food_pos[0], food_pos[1], 10, 10))
+    pygame.draw.rect(screen, WHITE, pygame.Rect(food_pos[0], food_pos[1], TILE_SIZE, TILE_SIZE))
 
-    if snake_pos[0] < 0 or snake_pos[0] > screen_width - 10 or snake_pos[1] < 0 or snake_pos[1] > screen_height - 10:
+    if snake_pos[0] < 0 or snake_pos[0] > SCREEN_WIDTH - TILE_SIZE or snake_pos[1] < 0 or snake_pos[1] > SCREEN_HEIGHT - TILE_SIZE:
         game_over()
 
     for block in snake_body[1:]:
@@ -90,4 +100,4 @@ while True:
 
     pygame.display.update()
 
-    clock.tick(speed)
+    clock.tick(SNAKE_SPEED)
