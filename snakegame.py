@@ -21,8 +21,7 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Snake settings
-snake_pos = [SNAKE_START_X, SNAKE_START_Y]
-snake_body = [
+snake = [
     [SNAKE_START_X, SNAKE_START_Y],
     [SNAKE_START_X - TILE_SIZE, SNAKE_START_Y],
     [SNAKE_START_X - 2 * TILE_SIZE, SNAKE_START_Y]
@@ -66,38 +65,42 @@ while True:
                 if not direction == 'LEFT':
                     direction = 'RIGHT'
 
-    if direction == 'UP':
-        snake_pos[1] -= TILE_SIZE
-    if direction == 'DOWN':
-        snake_pos[1] += TILE_SIZE
-    if direction == 'LEFT':
-        snake_pos[0] -= TILE_SIZE
-    if direction == 'RIGHT':
-        snake_pos[0] += TILE_SIZE
+    next_snake_position = snake[0].copy()
 
-    snake_body.insert(0, list(snake_pos))
-    if snake_pos == food_pos:
+    if direction == 'UP':
+        next_snake_position[1] -= TILE_SIZE
+    if direction == 'DOWN':
+        next_snake_position[1] += TILE_SIZE
+    if direction == 'LEFT':
+        next_snake_position[0] -= TILE_SIZE
+    if direction == 'RIGHT':
+        next_snake_position[0] += TILE_SIZE
+
+    snake.insert(0, next_snake_position)
+    if snake[0] == food_pos:
         food_spawn = False
     else:
-        snake_body.pop()
+        snake.pop()
 
     if not food_spawn:
-        food_pos = [randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
-                    randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE]
+        food_pos = [
+            randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
+            randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE
+        ]
     food_spawn = True
 
     screen.fill(BLACK)
 
-    for pos in snake_body:
+    for pos in snake:
         pygame.draw.rect(screen, GREEN, pygame.Rect(pos[0], pos[1], TILE_SIZE, TILE_SIZE))
 
     pygame.draw.rect(screen, WHITE, pygame.Rect(food_pos[0], food_pos[1], TILE_SIZE, TILE_SIZE))
 
-    if snake_pos[0] < 0 or snake_pos[0] > SCREEN_WIDTH - TILE_SIZE or snake_pos[1] < 0 or snake_pos[1] > SCREEN_HEIGHT - TILE_SIZE:
+    if snake[0][0] < 0 or snake[0][0] > SCREEN_WIDTH - TILE_SIZE or snake[0][1] < 0 or snake[0][1] > SCREEN_HEIGHT - TILE_SIZE:
         game_over()
 
-    for block in snake_body[1:]:
-        if snake_pos == block:
+    for block in snake[1:]:
+        if snake[0] == block:
             game_over()
 
     pygame.display.update()
