@@ -1,5 +1,3 @@
-from random import randrange
-
 import pygame
 
 from constants import (
@@ -11,6 +9,7 @@ from constants import (
     TILE_SIZE,
     WHITE,
 )
+from food_functions import get_random_food_position
 from snake_functions import initiate_snake_tiles
 from utilities import game_over
 
@@ -20,18 +19,12 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
 
-    # Snake settings
     snake = initiate_snake_tiles()
     direction = 'RIGHT'
 
-    # Food settings
-    food_pos = [
-        randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
-        randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE
-    ]
+    food_pos = get_random_food_position()
     food_spawn = True
 
-    # Main Function
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -70,10 +63,7 @@ def main():
             snake.pop()
 
         if not food_spawn:
-            food_pos = [
-                randrange(1, (SCREEN_WIDTH // TILE_SIZE)) * TILE_SIZE,
-                randrange(1, (SCREEN_HEIGHT // TILE_SIZE)) * TILE_SIZE
-            ]
+            food_pos = get_random_food_position()
         food_spawn = True
 
         screen.fill(BLACK)
